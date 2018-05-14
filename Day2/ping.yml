@@ -1,0 +1,21 @@
+---
+
+- name: This playbook demonstrates use of ping module
+  hosts: all
+
+  tasks:
+    - name: Ping the remote docker container
+      ping:
+
+- name: This is the second play
+  hosts: server2
+
+  tasks:
+    - name: List the files in root folder
+      shell: "ls -lr /"
+      register: output
+
+    - name: Print the output of the list task
+      debug: var=output
+
+...

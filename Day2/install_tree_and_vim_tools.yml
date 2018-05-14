@@ -1,0 +1,11 @@
+- name: This playbook install vim and tree utilities
+  hosts: all
+  gather_facts: yes 
+  become: yes
+
+  tasks:
+    - name: Install vim utility
+      apt: name=vim update_cache=yes state=latest
+
+    - name: Install tree utility
+      apt: name=tree update_cache=yes state=latest

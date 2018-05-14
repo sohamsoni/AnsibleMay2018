@@ -1,0 +1,8 @@
+---
+
+- name: Create web root folder
+  #shell: "mkdir -p /var/html && chmod 755 /var/html" 
+  file: path=/var/html  state=directory mode=755
+  notify:
+     - Restart nginx web server in Ubuntu
+     - Restart nginx web server in CentOS

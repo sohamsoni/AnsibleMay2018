@@ -1,0 +1,13 @@
+---
+- name: Start the docker containers here
+  hosts: localhost
+  tasks:
+   - name: Start the centos containers
+     docker_container:
+        image: tektutor/ansible-centos
+        state: present
+        name: "centos{{item}}"
+        ports:
+          - "300{{item}}:22"
+          - "900{{item}}:80"
+     with_sequence: start=1 end=2

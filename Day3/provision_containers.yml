@@ -1,0 +1,27 @@
+- name: Demonstrates spinning up new containers through playbook
+  hosts: localhost
+  tasks:
+   - name: Start new Ubuntu docker container
+     docker_container:
+        image: tektutor/ansible-ubuntu 
+        name: "ubuntu{{item}}"
+        state: started
+        ports:
+          - "200{{item}}:22"
+          - "800{{item}}:80"
+     with_sequence: start=1 end=2
+
+   - name: Start new CentOS docker container
+     docker_container:
+        image: tektutor/ansible-centos
+        name: "centos{{item}}"
+        state: started
+        ports:
+          - "300{{item}}:22"
+          - "900{{item}}:80"
+     with_sequence: start=1 end=2
+
+- name: Ping the new containers
+  hosts: all
+  tasks:
+   - ping: 

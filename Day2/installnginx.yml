@@ -1,0 +1,34 @@
+- name: This playbook installs, configures and deploys web page into nginx web server
+  hosts: all
+  become: yes
+  vars:
+    - organization_name: TekTutor
+    - provisioner_tool: Docker
+    - automation_tool: Ansible
+
+  handlers:
+    - name: Restart the nginx web server 
+      shell: "service nginx restart" 
+
+  tasks:
+    - name: Install nginx web server
+      apt: name=nginx state=present update_cache=yes
+
+    - name: Configure nginx web root home 
+      copy: src=default dest=/etc/nginx/sites-available/default
+      notify:
+        - Restart the nginx web server 
+
+    - name: Configure nginx settings 
+      copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+      notify:
+        - Restart the nginx web server 
+
+    - name: Create the nginx web root home
+      shell: "mkdir -p /var/html"
+      notify:
+        - Restart the nginx web server 
+
+    - name: Deploy web page
+      template: src=index.html.j2 dest=/var/html/index.html
+
